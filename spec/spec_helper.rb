@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
+require "contracted_value"
+
 if ENV["TRAVIS"]
-  require "coveralls"
-  Coveralls.wear!
+  require "simplecov"
+  SimpleCov.start
+
+  require "codecov"
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
-
-require "contracted_value/core"
-
-require "logger"
 
 require "rspec"
 require "rspec/its"

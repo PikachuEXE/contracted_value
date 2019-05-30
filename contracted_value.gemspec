@@ -39,9 +39,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 3.0"
   s.add_development_dependency "rspec-its", "~> 1.0"
 
-  s.add_development_dependency "coveralls", ">= 0.7"
+  s.add_development_dependency "simplecov"
+  s.add_development_dependency "codecov"
 
   s.add_development_dependency "gem-release", ">= 0.7"
+
+  s.add_development_dependency "inch", "~> 0.6"
 
   s.required_ruby_version = ">= 2.3.0"
 
