@@ -2,11 +2,16 @@
 
 Library for creating contracted immutable(by default) value objects
 
-(Placeholder for badges)
+[![Build Status](http://img.shields.io/travis/PikachuEXE/contracted_value.svg?style=flat-square)](https://travis-ci.org/PikachuEXE/contracted_value)
+
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/PikachuEXE/contracted_value.svg?style=flat-square)](https://codeclimate.com/github/PikachuEXE/contracted_value)
+[![Coverage Status](https://img.shields.io/codecov/c/github/PikachuEXE/contracted_value.svg?style=flat-square)](https://codecov.io/gh/PikachuEXE/contracted_value)
+[![Inch CI](https://inch-ci.org/github/PikachuEXE/contracted_value.svg?branch=master)](https://inch-ci.org/github/PikachuEXE/contracted_value)
+
 
 This gem allows creation of value objects which are
-- contracted (enforced by `contracts.ruby`(https://github.com/egonSchiele/contracts.ruby)) 
-- immutable (enforced by `ice_nine`(https://github.com/dkubb/ice_nine))
+- contracted (enforced by [`contracts.ruby`](https://github.com/egonSchiele/contracts.ruby))
+- immutable (enforced by [`ice_nine`](https://github.com/dkubb/ice_nine))
 
 See details explanation in below sections
 
@@ -39,8 +44,7 @@ $ gem install contracted_value
 ## Usage
 
 The examples below might contain some of my habbits,  
-like including `contracts.ruby` modules in class  
-or having code comment as new attribute declaration template  
+like including [`contracts.ruby`](https://github.com/egonSchiele/contracts.ruby) modules in class  
 You **don't** have to do it  
 
 
@@ -50,7 +54,6 @@ You can declare with or without contract/default value
 But an attribute **cannot** be declared twice
 
 ```ruby
-# Real world example but namespace is renamed
 module ::Geometry
 end
 
@@ -150,7 +153,7 @@ Input values are validated on object creation (instead of on attribute value acc
 
 #### Value contract
 An attribute can be declared without any contract, and any input value would be pass the validation
-But you can pass a contract via `contract` option (must be a `contracts.ruby`(https://github.com/egonSchiele/contracts.ruby) contract)
+But you can pass a contract via `contract` option (must be a [`contracts.ruby`](https://github.com/egonSchiele/contracts.ruby) contract)
 Passing input value violating an attribute's contract would cause an error
 
 ```ruby
@@ -183,7 +186,6 @@ The default value will need to confront to the contract passed in `contract` opt
 
 
 ```ruby
-# Real world example but namespace is renamed
 module ::WhatIsThis
   class Entry < ::ContractedValue::Value
     include ::Contracts::Core
@@ -211,7 +213,7 @@ WhatIsThis::Entry.new(
 
 
 ### Object Freezing
-All input values are frozen using `ice_nine`(https://github.com/dkubb/ice_nine) by default  
+All input values are frozen using [`ice_nine`](https://github.com/dkubb/ice_nine) by default  
 But some objects won't work properly when deeply frozen (rails obviously)  
 So you can specify how input value should be frozen (or not frozen) with option `refrigeration_mode`  
 Possible values are:
