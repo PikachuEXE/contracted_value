@@ -116,7 +116,9 @@ module ContractedValue
 
     def merge!(other_attr_set)
       shared_keys = attr_names & other_attr_set.attr_names
-      raise(Errors::DuplicateAttributeDeclaration, shared_keys.first) if shared_keys.any?
+      if shared_keys.any?
+        raise(Errors::DuplicateAttributeDeclaration, shared_keys.first)
+      end
 
       self.class.new(attributes_hash.merge(other_attr_set.attributes_hash))
     end
@@ -134,7 +136,8 @@ module ContractedValue
     end
 
     def initialize(
-      name:, contract:, refrigeration_mode:, default_value:)
+      name:, contract:, refrigeration_mode:, default_value:
+    )
 
       @name = name
       @contract = contract
@@ -148,9 +151,17 @@ module ContractedValue
     attr_reader :contract
     attr_reader :refrigeration_mode
 
-    def extract_val_with_default(input_attr_values_hash)
-      if input_attr_values_hash.key?(name)
-        return input_attr_values_hash.fetch(name)
+    def extract_value(hash)
+      if hash.key?(name)
+        attr_value = hash.fetch(name)
+
+        unless Contract.valid?(attr_value, contract)
+          raise(
+            Errors::InvalidAttributeValue.new(name, attr_value),
+          )
+        end
+
+        return attr_value
       end
 
       # Data missing from input
@@ -203,6 +214,8 @@ module ContractedValue
   end
 
   class Value
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def initialize(input_attr_values = {})
       input_attr_values_hash =
         case input_attr_values
@@ -219,32 +232,24 @@ module ContractedValue
         end
 
       self.class.send(:attribute_set).each_attribute do |attribute|
-        attr_value = attribute.extract_val_with_default(input_attr_values_hash)
+        attr_value = attribute.extract_value(input_attr_values_hash)
 
-        unless Contract.valid?(attr_value, attribute.contract)
-          raise(
-            Errors::InvalidAttributeValue.new(
-              attribute.name,
-              attr_value,
-            ),
-          )
-        end
-
-        sometimes_frozen_attr_value = case attribute.refrigeration_mode
-        when RefrigerationMode::Enum::DEEP
-          # Use ice_nine for deep freezing
-          ::IceNine.deep_freeze(attr_value)
-        when RefrigerationMode::Enum::SHALLOW
-          # No need to re-freeze
-          attr_value.frozen? ? attr_value : attr_value.freeze
-        when RefrigerationMode::Enum::NONE
-          # No freezing
-          attr_value
-        else
-          raise Errors::InvalidRefrigerationMode.new(
-            refrigeration_mode,
-          )
-        end
+        sometimes_frozen_attr_value =
+          case attribute.refrigeration_mode
+          when RefrigerationMode::Enum::DEEP
+            # Use ice_nine for deep freezing
+            ::IceNine.deep_freeze(attr_value)
+          when RefrigerationMode::Enum::SHALLOW
+            # No need to re-freeze
+            attr_value.frozen? ? attr_value : attr_value.freeze
+          when RefrigerationMode::Enum::NONE
+            # No freezing
+            attr_value
+          else
+            raise Errors::InvalidRefrigerationMode.new(
+              refrigeration_mode,
+            )
+          end
 
         # Using symbol since attribute names are limited in number
         # An alternative would be using frozen string
@@ -256,11 +261,14 @@ module ContractedValue
 
       freeze
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def to_h
-      self.class.send(:attribute_set).each_attribute.each_with_object({}) do |attribute, hash|
-        hash[attribute.name] = instance_variable_get(:"@#{attribute.name}")
-      end
+      self.class.send(:attribute_set).
+        each_attribute.each_with_object({}) do |attribute, hash|
+          hash[attribute.name] = instance_variable_get(:"@#{attribute.name}")
+        end
     end
 
     # == Class interface == #
@@ -278,7 +286,8 @@ module ContractedValue
         name,
         contract: ::Contracts::Builtin::Any,
         refrigeration_mode: RefrigerationMode::Enum::DEEP,
-        default_value: Private::ATTR_DEFAULT_VALUE_ABSENT_VAL)
+        default_value: Private::ATTR_DEFAULT_VALUE_ABSENT_VAL
+      )
 
         attr = Attribute.new(
           name: name,

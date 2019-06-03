@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
+
 # rubocop:disable all
 $LOAD_PATH.push File.expand_path("../lib", __FILE__)
 
@@ -45,6 +46,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "gem-release", ">= 0.7"
 
   s.add_development_dependency "inch", "~> 0.6"
+
+  s.add_development_dependency "rubocop", ">= 0.70"
 
   s.required_ruby_version = ">= 2.3.0"
 

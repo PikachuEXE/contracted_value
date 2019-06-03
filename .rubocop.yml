@@ -1,0 +1,41 @@
+---
+AllCops:
+  Exclude:
+    - "Gemfile*"
+    - "gemfiles/**/*"
+    - "spec/**/*"
+    - "node_modules/**/*"
+  TargetRubyVersion: 2.4
+
+Layout/DotPosition:
+  Enabled: true
+  Severity: warning
+  EnforcedStyle: trailing
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+Style/RaiseArgs:
+  Enabled: false
+Style/StringLiterals:
+  Enabled: true
+  Severity: warning
+  EnforcedStyle: double_quotes
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  Severity: warning
+  EnforcedStyle: double_quotes
+Style/TrailingCommaInArguments:
+  Enabled: true
+  Severity: warning
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  Severity: warning
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  Severity: warning
+  EnforcedStyleForMultiline: consistent_comma
