@@ -267,6 +267,54 @@ entry.cached_hash # => `FrozenError`
 
 ```
 
+Beware that the value passed to `default_value` option when declaring an attribute is always deeply frozen  
+This is to avoid any in-place change which changes the default value of any value object class attribute  
+
+
+### Value Object Class Inheritance
+You can create a value object class inheriting an existing value class instead of `::ContractedValue::Value`  
+
+#### All existing attributes can be used  
+No need to explain right?
+```ruby
+class Pokemon < ::ContractedValue::Value
+  attribute(:name)
+end
+
+class Pikachu < ::Pokemon
+  attribute(:type, default_value: "Thunder")
+end
+
+# Ya I love using pokemon as examples, problem?
+pikachu = Pikachu.new(name: "PikaPika")
+```
+
+#### All existing attributes can be redeclared  
+Within the same class you cannot redefine an attribute
+But in subclasses you can
+```ruby
+class Pokemon < ::ContractedValue::Value
+  attribute(:name)
+end
+
+class Pikachu < ::Pokemon
+  include ::Contracts::Core
+  include ::Contracts::Builtin
+
+  attribute(
+    :name,
+    contract: And[::String, Not[Send[:empty?]]],
+    default_value: String.new("Pikachu"),
+    refrigeration_mode: :none,
+  )
+end
+
+# Ya I love using pokemon as examples, problem?
+Pikachu.new.name # => "Pikachu"
+Pikachu.new.name.frozen? # => true, as mentioned above default value are always deeply frozen
+Pikachu.new(name: "Pikaaaachuuu").name.frozen? # => false
+```
+
 
 ## Related gems
 Here is a list of gems which I found and I have tried some of them.  

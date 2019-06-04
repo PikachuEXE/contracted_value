@@ -4,9 +4,9 @@ require "spec_helper"
 
 ::RSpec.describe ::ContractedValue::Value do
 
-  describe "attribute declaration" do
+  shared_examples_for "attribute declaration" do
     let(:value_class) do
-      Class.new(described_class)
+      raise "`value_class` absent"
     end
 
     example "does not raise error when NOT declaring any attribute" do
@@ -44,6 +44,15 @@ require "spec_helper"
           end
         },
       ).to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
+    end
+  end
+
+
+  describe "attribute declaration" do
+    it_behaves_like "attribute declaration" do
+      let(:value_class) do
+        Class.new(described_class)
+      end
     end
   end
 
@@ -458,7 +467,214 @@ require "spec_helper"
           end
         end
       end
+
+      context "and default value provided is mutable" do
+
+        context "as a string" do
+          let(:default_value) do
+            "PikaPika"
+          end
+
+          it_behaves_like "attribute with default value"
+
+          it "returns default value as frozen" do
+            expect(
+              value_class.new.attr_with_default,
+            ).to be_frozen
+          end
+        end
+
+        context "as a hash" do
+          let(:default_value) do
+            {a: {b: :c}}
+          end
+
+          it_behaves_like "attribute with default value"
+
+          it "returns default value as frozen" do
+            aggregate_failures do
+              val = value_class.new.attr_with_default.fetch(:a)
+
+              expect(val).to eq({b: :c})
+              expect(val).to be_frozen
+            end
+          end
+        end
+
+      end
     end
+  end
+
+  describe "sub-classes of a value class" do
+
+    describe "attribute declaration" do
+      let(:parent_value_class) do
+        Class.new(described_class)
+      end
+
+      it_behaves_like "attribute declaration" do
+        let(:value_class) do
+          Class.new(parent_value_class)
+        end
+      end
+
+      describe "usage of parent class attribute" do
+
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              # Too lazy to include parent attributes in all examples
+              attribute(:attribute_1)
+            end
+          end
+        end
+        let(:child_value_class) do
+          Class.new(parent_value_class)
+        end
+
+        example "does not raise error" do
+          expect(
+            ->{
+              child_value_class.new(attribute_1: "wut")
+            },
+          ).to_not raise_error
+        end
+
+      end
+
+      describe "for new attributes absent in parent class" do
+
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              # Too lazy to include parent attributes in all examples
+              attribute(:attribute_1, default_value: nil)
+              attribute(:attribute_2, default_value: nil)
+            end
+          end
+        end
+
+        let(:child_value_class) do
+          Class.new(parent_value_class)
+        end
+
+        example "does not raise error when declaring 1 new attribute" do
+          expect(
+            ->{
+              child_value_class.class_eval do
+                attribute(:attribute_3)
+              end
+            },
+          ).to_not raise_error
+        end
+
+        example "does not raise error when declaring N attributes with different names" do
+          expect(
+            ->{
+              child_value_class.class_eval do
+                attribute(:attribute_3)
+                attribute(:attribute_4)
+              end
+            },
+          ).to_not raise_error
+        end
+
+        example "does raise error when declaring N attributes with the same name" do
+          expect(
+            ->{
+              child_value_class.class_eval do
+                attribute(:attribute_3)
+                attribute(:attribute_4)
+                attribute(:attribute_3)
+              end
+            },
+          ).to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
+        end
+
+      end
+    end
+
+    describe "attribute redeclaration" do
+
+      let(:child_value_class) do
+        Class.new(parent_value_class)
+      end
+
+      describe "for existing attributes from parent class" do
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              attribute(:attribute_1)
+              attribute(:attribute_2)
+            end
+          end
+        end
+        it_behaves_like "attribute declaration" do
+          let(:value_class) do
+            child_value_class
+          end
+        end
+      end
+
+      describe "for existing attributes from parent class" do
+
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              attribute(
+                :attribute_1,
+                contract:           ::String,
+                refrigeration_mode: :deep,
+                # `default_value` not specified on purpose
+              )
+            end
+          end
+        end
+
+        example "does not raise error when declaring existing attribute with different contract" do
+          expect(
+            ->{
+              child_value_class.class_eval do
+                attribute(
+                  :attribute_1,
+                  contract: ::Contracts::Builtin::NatPos
+                )
+              end
+              child_value_class.new(attribute_1: "")
+            },
+          ).to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
+        end
+
+        example "does not raise error when declaring existing attribute with different default_value" do
+          expect(
+            ->{
+              child_value_class.class_eval do
+                attribute(
+                  :attribute_1,
+                  default_value: nil,
+                )
+              end
+              child_value_class.new
+            },
+          ).to_not raise_error
+        end
+
+        example "does not raise error when declaring existing attribute with different refrigeration_mode" do
+          child_value_class.class_eval do
+            attribute(
+              :attribute_1,
+              refrigeration_mode: :none,
+            )
+          end
+          value_object = child_value_class.new(attribute_1: String.new)
+          expect(value_object).to be_frozen
+          expect(value_object.attribute_1).to_not be_frozen
+        end
+
+      end
+
+    end
+
   end
 
 end
