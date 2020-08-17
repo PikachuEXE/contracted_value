@@ -156,9 +156,9 @@ Input values are validated on object creation (instead of on attribute value acc
 - Value presence
 
 #### Value contract
-An attribute can be declared without any contract, and any input value would be pass the validation
-But you can pass a contract via `contract` option (must be a [`contracts.ruby`](https://github.com/egonSchiele/contracts.ruby) contract)
-Passing input value violating an attribute's contract would cause an error
+An attribute can be declared without any contract, and any input value would be pass the validation  
+But you can pass a contract via `contract` option (must be a [`contracts.ruby`](https://github.com/egonSchiele/contracts.ruby) contract)  
+Passing input value violating an attribute's contract would cause an error  
 
 ```ruby
 class YetAnotherRationalNumber < ::ContractedValue::Value
@@ -183,10 +183,10 @@ YetAnotherRationalNumber.new(
 ```
 
 #### Value presence
-An attribute declared should be provided a value on object creation, even the input value is `nil`
-Otherwise an error is raised
-You can pass default value via option `default_value`
-The default value will need to confront to the contract passed in `contract` option too
+An attribute declared should be provided a value on object creation, even the input value is `nil`  
+Otherwise an error is raised  
+You can pass default value via option `default_value`  
+The default value will need to confront to the contract passed in `contract` option too  
 
 
 ```ruby
@@ -291,6 +291,8 @@ end
 
 # Ya I love using pokemon as examples, problem?
 pikachu = Pikachu.new(name: "PikaPika")
+pikachu.name #=> "PikaPika"
+pikachu.type #=> "Thunder"
 ```
 
 #### All existing attributes can be redeclared  
