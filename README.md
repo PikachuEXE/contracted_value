@@ -5,7 +5,7 @@ Library for creating contracted immutable(by default) value objects
 [![Gem Version](http://img.shields.io/gem/v/contracted_value.svg?style=flat-square)](http://badge.fury.io/rb/contracted_value)
 [![License](https://img.shields.io/github/license/PikachuEXE/contracted_value.svg?style=flat-square)](http://badge.fury.io/rb/contracted_value)
 
-[![Build Status](http://img.shields.io/travis/PikachuEXE/contracted_value.svg?style=flat-square)](https://travis-ci.org/PikachuEXE/contracted_value)
+[![GitHub Build Status](https://img.shields.io/github/workflow/status/PikachuEXE/contracted_value/Tests?style=flat-square)](https://github.com/PikachuEXE/contracted_value/actions?query=workflow%3ATests)
 
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/PikachuEXE/contracted_value.svg?style=flat-square)](https://codeclimate.com/github/PikachuEXE/contracted_value)
 [![Coverage Status](https://img.shields.io/codecov/c/github/PikachuEXE/contracted_value.svg?style=flat-square)](https://codecov.io/gh/PikachuEXE/contracted_value)
