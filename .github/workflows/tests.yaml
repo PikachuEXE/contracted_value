@@ -4,13 +4,18 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - 'README.md'
   push:
     branches:
       - master
+    paths-ignore:
+      - 'README.md'
 
 jobs:
   unit_tests:
     name: Unit Tests
+    if: "contains(github.event.commits[0].message, '[ci skip]') == false"
     strategy:
       fail-fast: false
       matrix:
