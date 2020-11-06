@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  unit_tests:
+    name: Unit Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu
+        ruby:
+          - 2.4
+          - 2.5
+          - 2.6
+          - 2.7
+          - ruby-head
+        gemfile:
+          - gemfiles/contracts_15_0.gemfile
+          - gemfiles/contracts_16_0.gemfile
+    runs-on: ${{ matrix.os }}-latest
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Bundle Install
+        run: |
+          export BUNDLE_GEMFILE="${GITHUB_WORKSPACE}/${{ matrix.gemfile }}"
+          bundle install --jobs 4 --retry 3
+      - name: Test
+        run: bundle exec rake
