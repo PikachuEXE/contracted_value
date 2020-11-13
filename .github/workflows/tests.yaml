@@ -32,7 +32,8 @@ jobs:
         allow_failures:
           - false
         include:
-          - ruby: ruby-head
+          - os: ubuntu
+            ruby: ruby-head
             gemfile: gemfiles/contracts_16_0.gemfile
             allow_failures: true
     env:
