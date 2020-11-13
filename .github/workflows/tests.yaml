@@ -32,9 +32,9 @@ jobs:
         allow_failures:
           - false
         include:
-          ruby: ruby-head
-          gemfile: gemfiles/contracts_16_0.gemfile
-          allow_failures: true
+          - ruby: ruby-head
+            gemfile: gemfiles/contracts_16_0.gemfile
+            allow_failures: true
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       BUNDLE_PATH:    "./vendor/bundle"
