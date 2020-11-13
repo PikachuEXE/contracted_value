@@ -31,8 +31,8 @@ jobs:
           - gemfiles/contracts_15_0.gemfile
           - gemfiles/contracts_16_0.gemfile
     env:
-      BUNDLE_GEMFILE: "${GITHUB_WORKSPACE}/${{ matrix.gemfile }}"
-      BUNDLE_PATH:    "${GITHUB_WORKSPACE}/vendor/bundle"
+      BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
+      BUNDLE_PATH:    "./vendor/bundle"
     runs-on: ${{ matrix.os }}-latest
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
