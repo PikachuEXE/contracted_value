@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ice_nine"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
-  s.add_development_dependency "rake", ">= 10.0", "<= 13.0"
+  s.add_development_dependency "rake", ">= 10.0", "<= 14.0"
   s.add_development_dependency "pry"
 
   s.add_development_dependency "appraisal", "~> 2.0"
