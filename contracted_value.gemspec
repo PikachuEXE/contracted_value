@@ -40,8 +40,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 3.0"
   s.add_development_dependency "rspec-its", "~> 1.0"
 
-  s.add_development_dependency "simplecov"
-  s.add_development_dependency "codecov"
+  s.add_development_dependency "simplecov", ">= 0.21"
+  s.add_development_dependency "simplecov-lcov", ">= 0.8"
 
   s.add_development_dependency "gem-release", ">= 0.7"
 
