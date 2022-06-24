@@ -150,6 +150,36 @@ location_range = ::Geometry::LocationRange::Entry.new(location)
 
 ```
 
+#### Passing objects of different `ContractedValue::Value` subclasses to `.new`
+Possible due to the implementation calling `#to_h` for `ContractedValue::Value` objects  
+But in case the attribute names are different, or adding new attributes/updating existing attributes is needed  
+You will need to call `#to_h` to get a `Hash` and do whatever modification needed before passing into `.new`  
+
+```ruby
+class Pokemon < ::ContractedValue::Value
+  attribute(:name)
+  attribute(:type)
+end
+
+class Pikachu < ::Pokemon
+  attribute(:name, default_value: "Pikachu")
+  attribute(:type, default_value: "Thunder")
+end
+
+# Ya I love using pokemon as examples, problem?
+pikachu = Pikachu.new(name: "PikaPika")
+pikachu.name #=> "PikaPika"
+pikachu.type #=> "Thunder"
+
+pokemon1 = Pokemon.new(pikachu)
+pokemon1.name #=> "PikaPika"
+pokemon1.type #=> "Thunder"
+
+pokemon2 = Pokemon.new(pikachu.to_h.merge(name: "Piak"))
+pokemon2.name #=> "Piak"
+pokemon2.type #=> "Thunder"
+```
+
 
 ### Input Validation
 
