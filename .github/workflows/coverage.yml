@@ -22,11 +22,10 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu
+          - ubuntu-latest
         ruby:
-          - 2.7
+          - "2.7"
         gemfile:
-          - gemfiles/contracts_15_0.gemfile
           - gemfiles/contracts_16_0.gemfile
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
