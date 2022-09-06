@@ -24,11 +24,10 @@ jobs:
         os:
           - ubuntu
         ruby:
-          - 2.5
-          - 2.6
-          - 2.7
+          - "2.5"
+          - "2.6"
+          - "2.7"
         gemfile:
-          - gemfiles/contracts_15_0.gemfile
           - gemfiles/contracts_16_0.gemfile
         allow_failures:
           - false
