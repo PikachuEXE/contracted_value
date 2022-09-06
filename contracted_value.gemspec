@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rubocop", ">= 0.70"
 
-  s.required_ruby_version = ">= 2.3.0"
+  s.required_ruby_version = ">= 2.7.0"
 
   s.required_rubygems_version = ">= 1.4.0"
 end

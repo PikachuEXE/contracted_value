@@ -131,7 +131,7 @@ module ContractedValue
   end
 
   class Attribute
-    def self.new(*)
+    def self.new(...)
       ::IceNine.deep_freeze(super)
     end
 
