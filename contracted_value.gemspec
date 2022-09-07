@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
   s.name          = gem_name
   s.version       = ContractedValue::VERSION
-  s.summary       = "Some Tweaks for ActiveRecord"
+  s.summary       = "Contracted immutable(by default) value objects"
   s.description   = <<-DOC
-    ActiveRecord is great, but could be better. Here are some tweaks for it.
+    Library for creating contracted immutable(by default) value objects supported by contracts.ruby & ice_nine
   DOC
 
   s.license       = "MIT"
