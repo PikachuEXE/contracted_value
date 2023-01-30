@@ -11,7 +11,7 @@ See details explanation in below sections
 
 ## Status
 
-[![GitHub Build Status](https://img.shields.io/github/workflow/status/PikachuEXE/contracted_value/Tests?style=flat-square)](https://github.com/PikachuEXE/contracted_value/actions?query=workflow%3ATests)
+[![GitHub Build Status](https://img.shields.io/github/actions/workflow/status/PikachuEXE/contracted_value/tests.yaml?branch=main&style=flat-square)](https://github.com/PikachuEXE/contracted_value/actions/workflows/tests.yaml)
 
 [![Gem Version](http://img.shields.io/gem/v/contracted_value.svg?style=flat-square)](http://badge.fury.io/rb/contracted_value)
 [![License](https://img.shields.io/github/license/PikachuEXE/contracted_value.svg?style=flat-square)](http://badge.fury.io/rb/contracted_value)
