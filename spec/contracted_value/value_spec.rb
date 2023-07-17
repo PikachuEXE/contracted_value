@@ -10,40 +10,34 @@ require "spec_helper"
     end
 
     example "does not raise error when NOT declaring any attribute" do
-      expect(->{ value_class }).to_not raise_error
+      expect { value_class }.to_not raise_error
     end
 
     example "does not raise error when declaring 1 attribute" do
-      expect(
-        ->{
-          value_class.class_eval do
-            attribute(:attribute_1)
-          end
-        },
-      ).to_not raise_error
+      expect {
+        value_class.class_eval do
+          attribute(:attribute_1)
+        end
+      }.to_not raise_error
     end
 
     example "does not raise error when declaring N attributes with different names" do
-      expect(
-        ->{
-          value_class.class_eval do
-            attribute(:attribute_1)
-            attribute(:attribute_2)
-          end
-        },
-      ).to_not raise_error
+      expect {
+        value_class.class_eval do
+          attribute(:attribute_1)
+          attribute(:attribute_2)
+        end
+      }.to_not raise_error
     end
 
     example "does raise error when declaring N attributes with the same name" do
-      expect(
-        ->{
-          value_class.class_eval do
-            attribute(:attribute_1)
-            attribute(:attribute_2)
-            attribute(:attribute_1)
-          end
-        },
-      ).to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
+      expect {
+        value_class.class_eval do
+          attribute(:attribute_1)
+          attribute(:attribute_2)
+          attribute(:attribute_1)
+        end
+      }.to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
     end
   end
 
@@ -79,39 +73,33 @@ require "spec_helper"
 
         it "does raise error when input is not a hash" do
           aggregate_failures do
-            expect(
-              ->{
-                value_class.new(
-                  non_hash,
-                )
-              },
-            ).to raise_error(::ContractedValue::Errors::InvalidInputType)
+            expect {
+              value_class.new(
+                non_hash,
+              )
+            }.to raise_error(::ContractedValue::Errors::InvalidInputType)
           end
         end
 
         it "does not raise error when input is a hash" do
           aggregate_failures do
-            expect(
-              ->{
-                value_class.new(
-                  default_inputs,
-                )
-              },
-            ).to_not raise_error
+            expect {
+              value_class.new(
+                default_inputs,
+              )
+            }.to_not raise_error
           end
         end
 
         it "does not raise error when input is a value" do
           aggregate_failures do
-            expect(
-              ->{
+            expect {
+              value_class.new(
                 value_class.new(
-                  value_class.new(
-                    default_inputs,
-                  ),
-                )
-              },
-            ).to_not raise_error
+                  default_inputs,
+                ),
+              )
+            }.to_not raise_error
           end
         end
 
@@ -121,13 +109,11 @@ require "spec_helper"
               :attribute_1,
               :attribute_2,
             ].each do |attr_name|
-              expect(
-                ->{
-                  value_class.new(
-                    default_inputs.dup.tap{|h| h.delete(attr_name)},
-                  )
-                },
-              ).to raise_error(::ContractedValue::Errors::MissingAttributeInput)
+              expect {
+                value_class.new(
+                  default_inputs.dup.tap{|h| h.delete(attr_name)},
+                )
+              }.to raise_error(::ContractedValue::Errors::MissingAttributeInput)
             end
           end
         end
@@ -138,15 +124,13 @@ require "spec_helper"
               :attribute_1,
               :attribute_2,
             ].each do |attr_name|
-              expect(
-                ->{
-                  value_class.new(
-                    default_inputs.each_with_object({}) do |(k, _v), h|
-                      h[k] = nil
-                    end
-                  )
-                },
-              ).to_not raise_error
+              expect {
+                value_class.new(
+                  default_inputs.each_with_object({}) do |(k, _v), h|
+                    h[k] = nil
+                  end
+                )
+              }.to_not raise_error
             end
           end
         end
@@ -175,36 +159,30 @@ require "spec_helper"
 
 
         it "does not raise error when all values are valid according to contracts" do
-          expect(
-            ->{
-              value_class.new(
-                default_inputs
-              )
-            },
-          ).to_not raise_error
+          expect {
+            value_class.new(
+              default_inputs
+            )
+          }.to_not raise_error
         end
 
         it "does raise error when any value is invalid according to contracts" do
           aggregate_failures do
-            expect(
-              ->{
-                value_class.new(
-                  default_inputs.merge(
-                    attribute_with_contract_1: "",
-                  ),
-                )
-              },
-            ).to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
+            expect {
+              value_class.new(
+                default_inputs.merge(
+                  attribute_with_contract_1: "",
+                ),
+              )
+            }.to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
 
-            expect(
-              ->{
-                value_class.new(
-                  default_inputs.merge(
-                    attribute_with_contract_2: 0,
-                  ),
-                )
-              },
-            ).to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
+            expect {
+              value_class.new(
+                default_inputs.merge(
+                  attribute_with_contract_2: 0,
+                ),
+              )
+            }.to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
           end
         end
       end
@@ -237,22 +215,18 @@ require "spec_helper"
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_input[:a] = nil
-          },
-        ).to raise_error(::RuntimeError, /can't modify frozen/)
+        expect {
+          hash_as_input[:a] = nil
+        }.to raise_error(::RuntimeError, /can't modify frozen/)
       end
 
       it "does deeply freeze the inputs" do
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_deep_nested_content[:a] = nil
-          },
-        ).to raise_error(::RuntimeError, /can't modify frozen/)
+        expect {
+          hash_as_deep_nested_content[:a] = nil
+        }.to raise_error(::RuntimeError, /can't modify frozen/)
       end
     end
 
@@ -265,22 +239,18 @@ require "spec_helper"
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_input[:a] = nil
-          },
-        ).to raise_error(::RuntimeError, /can't modify frozen/)
+        expect {
+          hash_as_input[:a] = nil
+        }.to raise_error(::RuntimeError, /can't modify frozen/)
       end
 
       it "does not deeply freeze the inputs" do
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_deep_nested_content[:a] = nil
-          },
-        ).to_not raise_error
+        expect {
+          hash_as_deep_nested_content[:a] = nil
+        }.to_not raise_error
       end
     end
 
@@ -293,22 +263,18 @@ require "spec_helper"
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_input[:a] = nil
-          },
-        ).to_not raise_error
+        expect {
+          hash_as_input[:a] = nil
+        }.to_not raise_error
       end
 
       it "does not deeply freeze the inputs" do
         # Create it just before expectation
         value_object
 
-        expect(
-          ->{
-            hash_as_deep_nested_content[:a] = nil
-          },
-        ).to_not raise_error
+        expect {
+          hash_as_deep_nested_content[:a] = nil
+        }.to_not raise_error
       end
     end
 
@@ -533,11 +499,9 @@ require "spec_helper"
         end
 
         example "does not raise error" do
-          expect(
-            ->{
-              child_value_class.new(attribute_1: "wut")
-            },
-          ).to_not raise_error
+          expect {
+            child_value_class.new(attribute_1: "wut")
+          }.to_not raise_error
         end
 
       end
@@ -559,36 +523,30 @@ require "spec_helper"
         end
 
         example "does not raise error when declaring 1 new attribute" do
-          expect(
-            ->{
-              child_value_class.class_eval do
-                attribute(:attribute_3)
-              end
-            },
-          ).to_not raise_error
+          expect {
+            child_value_class.class_eval do
+              attribute(:attribute_3)
+            end
+          }.to_not raise_error
         end
 
         example "does not raise error when declaring N attributes with different names" do
-          expect(
-            ->{
-              child_value_class.class_eval do
-                attribute(:attribute_3)
-                attribute(:attribute_4)
-              end
-            },
-          ).to_not raise_error
+          expect {
+            child_value_class.class_eval do
+              attribute(:attribute_3)
+              attribute(:attribute_4)
+            end
+          }.to_not raise_error
         end
 
         example "does raise error when declaring N attributes with the same name" do
-          expect(
-            ->{
-              child_value_class.class_eval do
-                attribute(:attribute_3)
-                attribute(:attribute_4)
-                attribute(:attribute_3)
-              end
-            },
-          ).to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
+          expect {
+            child_value_class.class_eval do
+              attribute(:attribute_3)
+              attribute(:attribute_4)
+              attribute(:attribute_3)
+            end
+          }.to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
         end
 
       end
@@ -632,31 +590,27 @@ require "spec_helper"
         end
 
         example "does not raise error when declaring existing attribute with different contract" do
-          expect(
-            ->{
-              child_value_class.class_eval do
-                attribute(
-                  :attribute_1,
-                  contract: ::Contracts::Builtin::NatPos
-                )
-              end
-              child_value_class.new(attribute_1: "")
-            },
-          ).to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
+          expect {
+            child_value_class.class_eval do
+              attribute(
+                :attribute_1,
+                contract: ::Contracts::Builtin::NatPos
+              )
+            end
+            child_value_class.new(attribute_1: "")
+          }.to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
         end
 
         example "does not raise error when declaring existing attribute with different default_value" do
-          expect(
-            ->{
-              child_value_class.class_eval do
-                attribute(
-                  :attribute_1,
-                  default_value: nil,
-                )
-              end
-              child_value_class.new
-            },
-          ).to_not raise_error
+          expect {
+            child_value_class.class_eval do
+              attribute(
+                :attribute_1,
+                default_value: nil,
+              )
+            end
+            child_value_class.new
+          }.to_not raise_error
         end
 
         example "does not raise error when declaring existing attribute with different refrigeration_mode" do
