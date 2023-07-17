@@ -33,10 +33,6 @@ jobs:
           - false
         include:
           - os: ubuntu-latest
-            ruby: "2.7"
-            gemfile: gemfiles/contracts_16_0.gemfile
-            allow_failures: false
-          - os: ubuntu-latest
             ruby: "ruby-head"
             gemfile: gemfiles/contracts_17_0.gemfile
             allow_failures: true

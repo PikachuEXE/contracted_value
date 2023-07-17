@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-appraise "contracts_16_0" do
-  gem "contracts", "~> 0.16.0"
+appraise "contracts_17_0" do
+  gem "contracts", "~> 0.17.0"
 end

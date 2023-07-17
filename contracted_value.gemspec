@@ -28,14 +28,14 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "contracts", "~> 0.15"
+  s.add_dependency "contracts", "~> 0.17"
   s.add_dependency "ice_nine"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
   s.add_development_dependency "rake", ">= 10.0", "<= 14.0"
   s.add_development_dependency "pry"
 
-  s.add_development_dependency "appraisal", "~> 2.0"
+  s.add_development_dependency "appraisal", "~> 2.0", ">= 2.5.0"
 
   s.add_development_dependency "rspec", "~> 3.0"
   s.add_development_dependency "rspec-its", "~> 1.0"
@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rubocop", ">= 0.70"
 
-  s.required_ruby_version = ">= 2.7.0"
+  s.required_ruby_version = ">= 3.0.0"
 
   s.required_rubygems_version = ">= 1.4.0"
 end
