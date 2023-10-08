@@ -93,13 +93,19 @@ require "spec_helper"
 
         it "does not raise error when input is a value" do
           aggregate_failures do
+            new_val = nil
             expect {
-              value_class.new(
+              new_val = value_class.new(
                 value_class.new(
                   default_inputs,
                 ),
               )
             }.to_not raise_error
+            if new_val
+              default_inputs.each_pair do |attr_name, attr_val|
+                expect(new_val.public_send(attr_name)).to eq(attr_val)
+              end
+            end
           end
         end
 
