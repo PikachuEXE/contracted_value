@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [0.1.3] - 2023-10-11
+
+### Fixed
+
+- Revert `Make code "Object Shape friendly"`
+  Strange issue discovered in an app in production environment
+
+
 ## [0.1.2] - 2023-10-11
 
 ### Changed
@@ -44,6 +52,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
+[0.1.3]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.3
 [0.1.2]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.2
 [0.1.1]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.1
 [0.1.0]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.0
