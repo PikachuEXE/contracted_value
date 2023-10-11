@@ -39,6 +39,22 @@ require "spec_helper"
         end
       }.to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
     end
+
+    example "does not raise error when declaring 1 attribute with string name" do
+      expect {
+        value_class.class_eval do
+          attribute("attribute_1")
+        end
+      }.to_not raise_error
+    end
+
+    example "does not raise error when declaring 1 attribute with number name" do
+      expect {
+        value_class.class_eval do
+          attribute(1)
+        end
+      }.to raise_error(::NoMethodError, /undefined method `to_sym'/)
+    end
   end
 
 
@@ -93,13 +109,19 @@ require "spec_helper"
 
         it "does not raise error when input is a value" do
           aggregate_failures do
+            new_val = nil
             expect {
-              value_class.new(
+              new_val = value_class.new(
                 value_class.new(
                   default_inputs,
                 ),
               )
             }.to_not raise_error
+            if new_val
+              default_inputs.each_pair do |attr_name, attr_val|
+                expect(new_val.public_send(attr_name)).to eq(attr_val)
+              end
+            end
           end
         end
 
