@@ -18,7 +18,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
-## [Unreleased]
+## [0.1.2]
+
+### Changed
+
+- Requires Ruby 3.0, contracts >= 0.17 (Ruby 2.7 EOL)
+- Make code "Object Shape friendly"
+  (https://github.com/PikachuEXE/contracted_value/pull/5)
+
+
+## [0.1.1]
 
 ### Changed
 
@@ -35,4 +44,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[Unreleased]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.0...HEAD
+[0.1.2]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.0...v0.1.1
