@@ -182,8 +182,15 @@ module ContractedValue
     attr_reader :default_value
 
     def raise_error_if_inputs_invalid
+      raise_error_if_name_invalid
       raise_error_if_refrigeration_mode_invalid
       raise_error_if_default_value_invalid
+    end
+
+    def raise_error_if_name_invalid
+      return if name.is_a?(Symbol)
+
+      raise NotImplementedError, "Internal error: name is not a symbol (#{name.class.name})"
     end
 
     def raise_error_if_refrigeration_mode_invalid
@@ -287,16 +294,19 @@ module ContractedValue
         refrigeration_mode: RefrigerationMode::Enum::DEEP,
         default_value: Private::ATTR_DEFAULT_VALUE_ABSENT_VAL
       )
+        # Using symbol since attribute names are limited in number
+        # An alternative would be using frozen string
+        name_in_sym = name.to_sym
 
         attr = Attribute.new(
-          name: name,
+          name: name_in_sym,
           contract: contract,
           refrigeration_mode: refrigeration_mode,
           default_value: default_value,
         )
         @attribute_set = @attribute_set.add(attr)
 
-        define_method(name) { @attr_values[name.to_sym] }
+        define_method(name_in_sym) { @attr_values[name_in_sym] }
       end
 
       # @api private

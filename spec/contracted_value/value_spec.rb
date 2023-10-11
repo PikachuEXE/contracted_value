@@ -39,6 +39,22 @@ require "spec_helper"
         end
       }.to raise_error(::ContractedValue::Errors::DuplicateAttributeDeclaration)
     end
+
+    example "does not raise error when declaring 1 attribute with string name" do
+      expect {
+        value_class.class_eval do
+          attribute("attribute_1")
+        end
+      }.to_not raise_error
+    end
+
+    example "does not raise error when declaring 1 attribute with number name" do
+      expect {
+        value_class.class_eval do
+          attribute(1)
+        end
+      }.to raise_error(::NoMethodError, /undefined method `to_sym'/)
+    end
   end
 
 
