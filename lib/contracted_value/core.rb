@@ -238,8 +238,6 @@ module ContractedValue
           )
         end
 
-      @attr_values = {}
-
       self.class.send(:attribute_set).each_attribute do |attribute|
         attr_value = attribute.extract_value(input_attr_values_hash)
 
@@ -262,8 +260,8 @@ module ContractedValue
 
         # Using symbol since attribute names are limited in number
         # An alternative would be using frozen string
-        @attr_values.store(
-          attribute.name.to_sym,
+        instance_variable_set(
+          :"@#{attribute.name}",
           sometimes_frozen_attr_value,
         )
       end
@@ -274,7 +272,10 @@ module ContractedValue
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def to_h
-      @attr_values.clone
+      self.class.send(:attribute_set).
+        each_attribute.each_with_object({}) do |attribute, hash|
+          hash[attribute.name] = instance_variable_get(:"@#{attribute.name}")
+        end
     end
 
     # == Class interface == #
@@ -306,7 +307,7 @@ module ContractedValue
         )
         @attribute_set = @attribute_set.add(attr)
 
-        define_method(name_in_sym) { @attr_values[name_in_sym] }
+        attr_reader(name_in_sym)
       end
 
       # @api private
