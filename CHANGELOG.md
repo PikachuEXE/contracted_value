@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [Unreleased]
+## [Unreleased] - NOW
 
 ### Added
 
@@ -18,7 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
-## [0.1.2]
+## [0.1.2] - 2023-10-11
 
 ### Changed
 
@@ -27,7 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   (https://github.com/PikachuEXE/contracted_value/pull/5)
 
 
-## [0.1.1]
+## [0.1.1] - 2022-09-07
 
 ### Changed
 
@@ -38,11 +38,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Ruby 3.x compatibility
 
 
-## 0.1.0 - 2019-06-05
+## [0.1.0] - 2019-06-05
 
 ### Added
 
 - Initial release
 
-[0.1.2]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.0...v0.1.1
+[0.1.2]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.2
+[0.1.1]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.1
+[0.1.0]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.0
