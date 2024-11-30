@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "appraisal", "~> 2.0", ">= 2.5.0"
 
   s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "rspec-its", "~> 1.0"
+  s.add_development_dependency "rspec-its", "~> 2.0"
 
   s.add_development_dependency "simplecov", ">= 0.21"
   s.add_development_dependency "simplecov-lcov", ">= 0.8"
