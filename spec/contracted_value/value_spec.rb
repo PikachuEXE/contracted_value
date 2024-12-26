@@ -53,7 +53,8 @@ require "spec_helper"
         value_class.class_eval do
           attribute(1)
         end
-      }.to raise_error(::NoMethodError, /undefined method `to_sym'/)
+      }.to raise_error(::NoMethodError, /undefined method `to_sym'|undefined method 'to_sym'/)
+      # ruby 3.4+ uses different quotes
     end
   end
 
