@@ -27,6 +27,7 @@ jobs:
           - ubuntu-latest
         ruby:
           - "3.4"
+          - "4.0"
         gemfile:
           - gemfiles/contracts_17_0.gemfile
     env:
