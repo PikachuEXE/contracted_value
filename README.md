@@ -247,6 +247,34 @@ WhatIsThis::Entry.new(
 ).something_optional # => nil
 ```
 
+#### Unexpected keys
+Call `detect_unexpected_keys` to detect unexpected keys  
+
+
+```ruby
+module ::WhatIsThis
+  class Entry < ::ContractedValue::Value
+    include ::Contracts::Core
+    include ::Contracts::Builtin
+
+    detect_unexpected_keys
+
+    attribute(
+      :something_required,
+    )
+    attribute(
+      :something_optional,
+      default_value: nil,
+    )
+  end
+end
+
+WhatIsThis::Entry.new(
+  something_required: 123,
+  something_unexpected: "whatever",
+) # => error
+```
+
 
 ### Object Freezing
 All input values are frozen using [`ice_nine`](https://github.com/dkubb/ice_nine) by default  
@@ -352,6 +380,10 @@ Pikachu.new.name # => "Pikachu"
 Pikachu.new.name.frozen? # => true, as mentioned above default value are always deeply frozen
 Pikachu.new(name: "Pikaaaachuuu").name.frozen? # => false
 ```
+
+#### `detect_unexpected_keys` inherited
+If parent class already called `detect_unexpected_keys`, no need to call in child class  
+Otherwise you can call `detect_unexpected_keys` in child class without affecting parent class  
 
 
 ## Related gems
