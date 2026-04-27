@@ -84,7 +84,7 @@ module ContractedValue
       def initialize(keys)
         super(
           <<~MSG
-            Unexpected key(s) #{keys.map{ ":#{it}" }.join(", ")} detected in input
+            Unexpected key(s) #{keys.map{|key| ":#{key}" }.join(", ")} detected in input
           MSG
         )
       end
