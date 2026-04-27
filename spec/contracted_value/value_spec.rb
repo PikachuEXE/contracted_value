@@ -48,7 +48,7 @@ require "spec_helper"
       }.to_not raise_error
     end
 
-    example "does not raise error when declaring 1 attribute with number name" do
+    example "does raise error when declaring 1 attribute with number name" do
       expect {
         value_class.class_eval do
           attribute(1)
@@ -622,6 +622,7 @@ require "spec_helper"
             end
             child_value_class.new(attribute_1: "")
           }.to raise_error(::ContractedValue::Errors::InvalidAttributeValue)
+          # Note that the error above is for the input not the attribute declaration
         end
 
         example "does not raise error when declaring existing attribute with different default_value" do
