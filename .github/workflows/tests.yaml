@@ -30,6 +30,7 @@ jobs:
           - "3.2"
           - "3.3"
           - "3.4"
+          - "4.0"
         gemfile:
           - gemfiles/contracts_17_0.gemfile
         allow_failures:
