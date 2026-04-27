@@ -248,7 +248,8 @@ WhatIsThis::Entry.new(
 ```
 
 #### Unexpected keys
-Call `detect_unexpected_keys` to detect unexpected keys  
+Call `detect_unexpected_keys` to detect unexpected keys by raising error  
+It's off by default  
 
 
 ```ruby
@@ -382,8 +383,8 @@ Pikachu.new(name: "Pikaaaachuuu").name.frozen? # => false
 ```
 
 #### `detect_unexpected_keys` inherited
-If parent class already called `detect_unexpected_keys`, no need to call in child class  
-Otherwise you can call `detect_unexpected_keys` in child class without affecting parent class  
+If parent class already called `detect_unexpected_keys`, all children classes would have it enabled too  
+Otherwise you can call `detect_unexpected_keys` in child class(es) without affecting parent class  
 
 
 ## Related gems
