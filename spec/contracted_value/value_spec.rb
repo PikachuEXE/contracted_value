@@ -84,6 +84,12 @@ require "spec_helper"
           }
         end
 
+        let(:inputs_with_extra) do
+          default_inputs.merge(
+            attribute_3: 1,
+          )
+        end
+
         let(:non_hash) do
           []
         end
@@ -155,6 +161,16 @@ require "spec_helper"
                 )
               }.to_not raise_error
             end
+          end
+        end
+
+        it "does not raise error when extra attribute is input" do
+          aggregate_failures do
+            expect {
+              value_class.new(
+                inputs_with_extra,
+              )
+            }.to_not raise_error
           end
         end
       end
