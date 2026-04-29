@@ -700,7 +700,11 @@ require "spec_helper"
           end
         end
 
-        # No case for parent here coz it would be the same as an existing test case
+        it "does raise error on parent class object" do
+          expect {
+            parent_value_class.new(attribute_1: 1, attribute_2: 2)
+          }.to raise_error(::ContractedValue::Errors::UnexpectedInputKeys)
+        end
 
         it "does raise error on child class object" do
           expect {
