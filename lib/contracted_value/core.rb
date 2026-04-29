@@ -79,6 +79,16 @@ module ContractedValue
         )
       end
     end
+
+    class UnexpectedInputKeys < ArgumentError
+      def initialize(keys)
+        super(
+          <<~MSG
+            Unexpected key(s) #{keys.map{|key| ":#{key}" }.join(", ")} detected in input
+          MSG
+        )
+      end
+    end
   end
 
   module Private
@@ -110,6 +120,10 @@ module ContractedValue
       attributes_hash.each_value do |v|
         yield(v)
       end
+    end
+
+    def detect_unexpected_keys(hash)
+      hash.keys - attr_names
     end
 
     protected
@@ -238,7 +252,8 @@ module ContractedValue
           )
         end
 
-      self.class.send(:attribute_set).each_attribute do |attribute|
+      attribute_set = self.class.send(:attribute_set)
+      attribute_set.each_attribute do |attribute|
         attr_value = attribute.extract_value(input_attr_values_hash)
 
         sometimes_frozen_attr_value =
@@ -266,6 +281,15 @@ module ContractedValue
         )
       end
 
+      if self.class.send(:should_detect_unexpected_keys)
+        unexpected_keys = attribute_set.detect_unexpected_keys(input_attr_values_hash)
+        if unexpected_keys.any?
+          raise Errors::UnexpectedInputKeys.new(
+            unexpected_keys,
+          )
+        end
+      end
+
       freeze
     end
     # rubocop:enable Metrics/AbcSize
@@ -280,10 +304,19 @@ module ContractedValue
 
     # == Class interface == #
     class << self
-      def inherited(klass)
+      def inherited(child_klass)
         super
 
-        klass.instance_variable_set(:@attribute_set, AttributeSet.new)
+        child_klass.instance_variable_set(:@attribute_set, AttributeSet.new)
+        child_klass.instance_variable_set(
+          :@should_detect_unexpected_keys,
+          if child_klass.superclass.respond_to?(:should_detect_unexpected_keys, true)
+            child_klass.superclass.send(:should_detect_unexpected_keys)
+          else
+            false
+          end
+        )
+
       end
 
       private
@@ -326,6 +359,14 @@ module ContractedValue
         # @attribute_set would be nil
         super_attribute_set.merge(@attribute_set || AttributeSet.new)
       end
+
+      # @api
+      def detect_unexpected_keys
+        @should_detect_unexpected_keys = true
+      end
+
+      # @api private
+      attr_reader :should_detect_unexpected_keys
     end
     # == Class interface == #
   end

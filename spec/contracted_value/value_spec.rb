@@ -173,6 +173,20 @@ require "spec_helper"
             }.to_not raise_error
           end
         end
+
+        it "does not raise error when extra attribute is input" do
+          aggregate_failures do
+            value_class.class_eval do
+              detect_unexpected_keys
+            end
+
+            expect {
+              value_class.new(
+                inputs_with_extra,
+              )
+            }.to raise_error(::ContractedValue::Errors::UnexpectedInputKeys)
+          end
+        end
       end
 
       context "with class with some attributes declared with contract" do
@@ -667,6 +681,66 @@ require "spec_helper"
 
       end
 
+    end
+
+    describe "for detect_unexpected_keys" do
+      let(:child_value_class) do
+        Class.new(parent_value_class)
+      end
+
+      context "when detect_unexpected_keys declared inside parent class" do
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              detect_unexpected_keys
+
+              # Too lazy to include parent attributes in all examples
+              attribute(:attribute_1)
+            end
+          end
+        end
+
+        it "does raise error on parent class object" do
+          expect {
+            parent_value_class.new(attribute_1: 1, attribute_2: 2)
+          }.to raise_error(::ContractedValue::Errors::UnexpectedInputKeys)
+        end
+
+        it "does raise error on child class object" do
+          expect {
+            child_value_class.new(attribute_1: 1, attribute_2: 2)
+          }.to raise_error(::ContractedValue::Errors::UnexpectedInputKeys)
+        end
+      end
+
+      context "when detect_unexpected_keys declared inside child class" do
+        let(:parent_value_class) do
+          Class.new(described_class).tap do |klass|
+            klass.class_eval do
+              # Too lazy to include parent attributes in all examples
+              attribute(:attribute_1)
+            end
+          end
+        end
+
+        before do
+          child_value_class.class_eval do
+            detect_unexpected_keys
+          end
+        end
+
+        it "does not raise error on parent class object" do
+          expect {
+            parent_value_class.new(attribute_1: 1, attribute_2: 2)
+          }.to_not raise_error
+        end
+
+        it "does raise error on child class object" do
+          expect {
+            child_value_class.new(attribute_1: 1, attribute_2: 2)
+          }.to raise_error(::ContractedValue::Errors::UnexpectedInputKeys)
+        end
+      end
     end
 
   end
