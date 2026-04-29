@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.3...master
+[Unreleased]: https://github.com/PikachuEXE/contracted_value/compare/v0.2.0...master
 
 ### Added
 
@@ -17,6 +17,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Nothing
+
+
+## [0.2.0] - 2026-04-29
+[0.2.0]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.2.0
+
+### Added
+
+- Add feature detect_unexpected_keys
+  (https://github.com/PikachuEXE/contracted_value/pull/9)
 
 
 ## [0.1.3] - 2023-10-11
