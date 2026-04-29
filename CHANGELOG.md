@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [Unreleased] - NOW
+## [Unreleased]
+[Unreleased]: https://github.com/PikachuEXE/contracted_value/compare/v0.1.3...master
 
 ### Added
 
@@ -19,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.3] - 2023-10-11
+[0.1.3]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.3
 
 ### Fixed
 
@@ -27,6 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.2] - 2023-10-11
+[0.1.2]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.2
 
 ### Changed
 
@@ -36,6 +39,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.1] - 2022-09-07
+[0.1.1]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.1
 
 ### Changed
 
@@ -47,12 +51,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.0] - 2019-06-05
+[0.1.0]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.0
 
 ### Added
 
 - Initial release
-
-[0.1.3]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.3
-[0.1.2]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.2
-[0.1.1]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.1
-[0.1.0]: https://github.com/PikachuEXE/contracted_value/releases/tag/v0.1.0
